@@ -1,13 +1,13 @@
 const STAR_PADDING_RATIO = 0.05;
 
 function getCoordinates(diameter) {
-    radius = diameter / 2.0;
-    angleIncrements = 2 * Math.PI / 5;
-    nextAngle = 0;
-    coordinates = "";
+    var radius = diameter / 2.0;
+    var angleIncrements = 2 * Math.PI / 5;
+    var nextAngle = 0;
+    var coordinates = "";
     for (var i = 0; i < 6; i++) {
-        y = -radius * Math.cos(nextAngle) + radius;
-        x = -radius * Math.sin(nextAngle) + radius;
+        let y = radius * (1 - Math.cos(nextAngle));
+        let x = radius * (1 - Math.sin(nextAngle));
         coordinates += " " + x + "," + y + " ";
         nextAngle += 2 * angleIncrements;
     }
@@ -29,13 +29,13 @@ function generateRatingStars(rating, starSize) {
     for (var i = 0; i < completeStars; i++) {
         stars += generateStar(coordinates, starSize, i);
     }
-    num_gaps = completeStars - 1;
+    var num_gaps = completeStars - 1;
     if (partialStar > 0.1) {
         num_gaps++;
         stars += generateStar(coordinates, starSize, completeStars);
     }
 
-    svgWidth = (completeStars * starSize)
+    var svgWidth = (completeStars * starSize)
                 + starSize * STAR_PADDING_RATIO * num_gaps
                 + partialStar * starSize;
     return `<svg height="${starSize}" width="${svgWidth}">
@@ -43,4 +43,4 @@ function generateRatingStars(rating, starSize) {
             </svg>`
 }
 
-console.log(generateRatingStars(3.3, 50));
+console.log(generateRatingStars(3.5, 50));
