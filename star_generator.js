@@ -2,7 +2,7 @@ const STAR_PADDING_RATIO = 0.05;
 
 function getCoordinates(diameter) {
     radius = diameter / 2.0;
-    angleIncrements = 2.0 * Math.PI / 5;
+    angleIncrements = 2 * Math.PI / 5;
     nextAngle = 0;
     coordinates = "";
     for (var i = 0; i < 6; i++) {
@@ -14,24 +14,25 @@ function getCoordinates(diameter) {
     return coordinates;
 }
 
-function generateStar(diameter, starNumber) {
+function generateStar(coordinates, diameter, starNumber) {
     return `<polygon
-                points="${getCoordinates(diameter)}"
+                points="${coordinates}"
                 transform="translate(${(diameter * (1 + STAR_PADDING_RATIO)) * starNumber})"
                 style="fill:gold;" />`;
 }
 
 function generateRatingStars(rating, starSize) {
+    const coordinates = getCoordinates(starSize);
     var completeStars = parseInt(rating, 10);
     var partialStar = rating - completeStars;
     var stars = "";
     for (var i = 0; i < completeStars; i++) {
-        stars += generateStar(starSize, i);
+        stars += generateStar(coordinates, starSize, i);
     }
     num_gaps = completeStars - 1;
     if (partialStar > 0.1) {
         num_gaps++;
-        stars += generateStar(starSize, completeStars);
+        stars += generateStar(coordinates, starSize, completeStars);
     }
 
     svgWidth = (completeStars * starSize)
